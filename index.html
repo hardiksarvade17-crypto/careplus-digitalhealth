@@ -1,0 +1,2472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CarePlus Digital Health Portal</title>
+
+<style>
+/* GLOBAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f8fb;
+    color: #263238;
+    line-height: 1.6;
+}
+
+:root {
+    --primary: #1976d2;
+    --primary-dark: #0d47a1;
+    --secondary: #00a896;
+    --accent: #0288d1;
+    --success: #2e7d32;
+    --danger: #d32f2f;
+    --warning: #f9a825;
+    --light: #f4f8fb;
+    --dark: #263238;
+    --white: #ffffff;
+    --border: #d9e2ec;
+    --shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* NAVBAR */
+.navbar {
+    background: white;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.logo span {
+    color: var(--secondary);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.nav-links button {
+    border: none;
+    background: transparent;
+    padding: 9px 12px;
+    border-radius: 6px;
+    color: var(--dark);
+    font-weight: 500;
+}
+
+.nav-links button:hover {
+    background: #e3f2fd;
+    color: var(--primary);
+}
+
+/* PAGE SYSTEM */
+.page {
+    display: none;
+    min-height: calc(100vh - 70px);
+}
+
+.page.active {
+    display: block;
+}
+
+/* CREATIVE MESH HERO */
+.hero {
+    min-height: 600px;
+    background: radial-gradient(circle at 15% 20%, rgba(0, 168, 150, 0.45), transparent 45%),
+                radial-gradient(circle at 85% 75%, rgba(2, 136, 209, 0.4), transparent 50%),
+                linear-gradient(135deg, #0a192f 0%, #0d47a1 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+    padding: 60px 20px;
+}
+
+.hero h1 {
+    font-size: 46px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #bbdefb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #cfd8dc;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* GLASSMORPHISM CARD */
+.glass-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background: rgba(46, 125, 50, 0.25);
+    border: 1px solid #4caf50;
+    color: #a5d6a7;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #4caf50;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+    animation: pulseGlow 1.8s infinite;
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+.quick-stats-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 18px;
+}
+
+.quick-stat-item h4 {
+    font-size: 22px;
+    color: #64ffda;
+    margin-bottom: 2px;
+}
+
+.quick-stat-item small {
+    color: #eceff1;
+    font-size: 11px;
+}
+
+/* BUTTONS */
+.btn {
+    border: none;
+    padding: 11px 18px;
+    border-radius: 7px;
+    font-weight: bold;
+    transition: 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-secondary { background: var(--secondary); color: white; }
+.btn-accent { background: var(--accent); color: white; }
+.btn-success { background: var(--success); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-warning { background: var(--warning); color: #222; }
+.btn-light { background: white; color: var(--primary); }
+.btn-whatsapp { background: #25d366; color: white; }
+.btn-calendar { background: #4285f4; color: white; }
+.btn-small { padding: 6px 10px; font-size: 12px; }
+
+/* CONTAINER */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 45px 20px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.section-title h2 {
+    color: var(--primary-dark);
+    font-size: 30px;
+}
+
+.section-title p {
+    color: #607d8b;
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    border: 1px solid #edf2f7;
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.09);
+}
+
+.card-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+
+.card h3 {
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+}
+
+/* SEARCH & FILTER CONTROLS */
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-bar input, .filter-bar select {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: white;
+    font-size: 14px;
+}
+
+.filter-bar input {
+    flex: 1;
+    min-width: 220px;
+}
+
+/* DOCTORS */
+.doctor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.doctor-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #edf2f7;
+}
+
+.doctor-avatar {
+    width: 85px;
+    height: 85px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: #e3f2fd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+.doctor-card h3 {
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+}
+
+.speciality {
+    color: var(--secondary);
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.doctor-rating-badge {
+    color: #ff9800;
+    font-size: 13px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.doctor-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+/* FORMS */
+.form-container {
+    max-width: 620px;
+    margin: auto;
+}
+
+.form-card {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    border: 1px solid #edf2f7;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--primary);
+}
+
+.form-group textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+/* TIME SLOT PICKER */
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.slot-btn {
+    padding: 9px 4px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: white;
+    font-weight: bold;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.slot-btn:hover:not(.disabled) {
+    background: #e3f2fd;
+    border-color: var(--primary);
+}
+
+.slot-btn.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary-dark);
+}
+
+.slot-btn.disabled {
+    background: #eceff1;
+    color: #b0bec5;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+/* TOKEN PILL */
+.token-badge {
+    background: #e8eaf6;
+    color: #283593;
+    font-family: monospace;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1px solid #c5cae9;
+    display: inline-block;
+}
+
+/* LIVE OPD QUEUE DISPLAY SCREEN */
+.queue-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.queue-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border-top: 5px solid var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.queue-card h4 {
+    color: var(--primary-dark);
+    margin-bottom: 6px;
+}
+
+.serving-box {
+    background: #e3f2fd;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    margin: 12px 0;
+}
+
+.serving-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary);
+    font-family: monospace;
+}
+
+/* DASHBOARD */
+.dashboard-header {
+    background: linear-gradient(135deg, #0d47a1, #00a896);
+    color: white;
+    padding: 35px 20px;
+}
+
+.dashboard-header-content {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    border: 1px solid #edf2f7;
+}
+
+.stat-card h2 {
+    color: var(--primary);
+    font-size: 32px;
+}
+
+.stat-card p {
+    color: #607d8b;
+}
+
+/* TABLE */
+.table-container {
+    background: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+    margin-bottom: 35px;
+    border: 1px solid #edf2f7;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 780px;
+}
+
+th, td {
+    padding: 13px 15px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background: #e3f2fd;
+    color: var(--primary-dark);
+}
+
+tr:hover {
+    background: #f8fbfd;
+}
+
+/* STATUS TAGS */
+.status {
+    padding: 4px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status-pending { background: #fff3cd; color: #856404; }
+.status-approved { background: #d4edda; color: #155724; }
+.status-completed { background: #d1ecf1; color: #0c5460; }
+.status-cancelled { background: #f8d7da; color: #721c24; }
+
+/* MODALS */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 4000;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    width: 100%;
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+    color: #607d8b;
+}
+
+/* STAR RATING */
+.star-rating {
+    display: flex;
+    gap: 6px;
+    font-size: 28px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.star-rating span {
+    color: #cfd8dc;
+    transition: 0.2s;
+}
+
+.star-rating span.active, .star-rating span:hover, .star-rating span:hover ~ span {
+    color: #ffb300;
+}
+
+/* TOAST NOTIFICATIONS */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 5000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    min-width: 270px;
+    max-width: 380px;
+    background: white;
+    padding: 14px 18px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    animation: toastSlideIn 0.3s ease-out;
+    border-left: 5px solid var(--primary);
+    font-size: 14px;
+}
+
+.toast.success { border-left-color: var(--success); }
+.toast.error { border-left-color: var(--danger); }
+.toast.warning { border-left-color: var(--warning); }
+
+@keyframes toastSlideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* PRINT SLIP */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #print-slip, #print-slip * {
+        visibility: visible;
+    }
+    #print-slip {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        display: block !important;
+        padding: 30px;
+        background: white;
+    }
+}
+
+#print-slip {
+    display: none;
+}
+
+/* FOOTER */
+.footer {
+    background: #102a43;
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    margin-top: 50px;
+}
+
+.footer p { margin: 5px; }
+
+/* CHATBOT */
+.chatbot-button {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    font-size: 28px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    z-index: 3000;
+    transition: 0.3s;
+}
+
+.chatbot-button:hover { transform: scale(1.08); }
+
+.chatbot {
+    position: fixed;
+    right: 25px;
+    bottom: 95px;
+    width: 360px;
+    max-width: calc(100vw - 30px);
+    height: 520px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    z-index: 2999;
+}
+
+.chatbot.open { display: flex; }
+
+.chat-header {
+    background: linear-gradient(135deg, #1976d2, #00a896);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-title { display: flex; align-items: center; gap: 10px; }
+.chat-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: white;
+    color: var(--primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f4f8fb;
+}
+
+.message { display: flex; margin-bottom: 12px; }
+.message.bot { justify-content: flex-start; }
+.message.user { justify-content: flex-end; }
+
+.message-bubble {
+    max-width: 80%;
+    padding: 9px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.message.bot .message-bubble {
+    background: white;
+    color: #263238;
+    border-bottom-left-radius: 3px;
+    box-shadow: 0 2px 7px rgba(0,0,0,0.06);
+}
+
+.message.user .message-bubble {
+    background: var(--primary);
+    color: white;
+    border-bottom-right-radius: 3px;
+}
+
+.quick-questions {
+    padding: 8px 10px;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+.quick-questions button {
+    white-space: nowrap;
+    border: 1px solid #bbdefb;
+    background: #e3f2fd;
+    color: var(--primary-dark);
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 11px;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 8px;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+.chat-input {
+    flex: 1;
+    border: 1px solid var(--border);
+    padding: 9px;
+    border-radius: 6px 0 0 6px;
+    outline: none;
+}
+
+.chat-send {
+    width: 44px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    border-radius: 0 6px 6px 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .cards, .doctor-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 38px; }
+}
+
+@media (max-width: 600px) {
+    .nav-container { flex-direction: column; gap: 10px; }
+    .cards, .doctor-grid, .stats { grid-template-columns: 1fr; }
+    .time-slots { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 30px; }
+}
+</style>
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">Care<span>Plus</span></div>
+        <ul class="nav-links">
+            <li><button onclick="showPage('home')">Home</button></li>
+            <li><button onclick="showPage('doctors')">Doctors</button></li>
+            <li><button onclick="showPage('queue')">Live OPD Queue</button></li>
+            <li><button onclick="showPage('appointment')">Appointment</button></li>
+            <li id="dashboardNav"><button onclick="showPage('dashboard')">Dashboard</button></li>
+            <li id="adminNav" style="display:none;"><button onclick="showPage('admin')">Admin</button></li>
+            <li id="loginNav"><button onclick="showPage('login')">Login</button></li>
+            <li id="registerNav"><button onclick="showPage('register')">Register</button></li>
+            <li id="logoutNav" style="display:none;"><button class="btn-danger btn-small" onclick="logout()">Logout</button></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- CREATIVE HERO & HOMEPAGE -->
+<section id="home" class="page active">
+    <div class="hero">
+        <div class="hero-grid">
+            <div>
+                <div class="live-badge">
+                    <span class="pulse-dot"></span> CarePlus 24/7 Clinical Network Active
+                </div>
+                <h1>Smart Hospital Care, Live Tokens & Digital Health Portal</h1>
+                <p>
+                    Intelligent appointment triage, sequential queue tokens, automated booking notifications, and verified specialist care.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="showPage('appointment')">📅 Book Instant Appointment</button>
+                    <button class="btn btn-secondary" onclick="showPage('queue')">📺 View Live OPD Queue</button>
+                </div>
+            </div>
+
+            <!-- GLASSMORPHIC LIVE METRICS CARD -->
+            <div class="glass-card">
+                <h3 style="color:#ffffff; margin-bottom:6px;">Live Hospital Desk</h3>
+                <p style="color:#b0bec5; font-size:13px; margin-bottom:15px;">Real-time capacity & readiness status</p>
+                
+                <div style="display:flex; flex-direction:column; gap:12px; font-size:14px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>🚨 Emergency / Trauma:</span>
+                        <strong style="color:#4caf50;">Operational (24/7)</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>👨‍⚕️ Physicians On Duty:</span>
+                        <strong id="liveDocCount" style="color:#64ffda;">6 Specialists</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>🎫 Active Token System:</span>
+                        <strong style="color:#ffffff;">Automated Queue</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>📞 Hospital Contact:</span>
+                        <a href="tel:7021160685" style="color:#64ffda; font-weight:bold;">+91 7021160685</a>
+                    </div>
+                </div>
+
+                <div class="quick-stats-row">
+                    <div class="quick-stat-item">
+                        <h4>&lt; 15m</h4>
+                        <small>Avg. OPD Wait</small>
+                    </div>
+                    <div class="quick-stat-item">
+                        <h4>100%</h4>
+                        <small>Verified Doctors</small>
+                    </div>
+                    <div class="quick-stat-item">
+                        <h4>4.9 ★</h4>
+                        <small>Patient Score</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section-title">
+            <h2>Modern Hospital Management Features</h2>
+            <p>Built-in clinical efficiency for patients and administrative teams</p>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <div class="card-icon">🎫</div>
+                <h3>Sequential Token System</h3>
+                <p>Every booking gets a unique queue token. Check your turn and estimated wait time live from your dashboard or waiting room.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔔</div>
+                <h3>Instant Reminders</h3>
+                <p>Receive an automatic system reminder with your token number upon booking, with direct WhatsApp dispatch managed securely by staff.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🩺</div>
+                <h3>Clinical Portals</h3>
+                <p>Manage appointments, inspect doctor bio profiles, decode medical prescriptions, and issue electronic clinical receipts.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LIVE OPD QUEUE SCREEN -->
+<section id="queue" class="page">
+    <div class="container">
+        <div class="section-title">
+            <h2>Live OPD Consultation Queue</h2>
+            <p>Real-time token status for physicians currently in consultation</p>
+        </div>
+        <div class="queue-board" id="queueBoardContainer"></div>
+    </div>
+</section>
+
+<!-- DOCTORS -->
+<section id="doctors" class="page">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Medical Specialists</h2>
+            <p>Browse our staff and select a doctor to book your consultation</p>
+        </div>
+
+        <div class="filter-bar">
+            <input type="text" id="doctorSearchInput" placeholder="🔍 Search doctor by name or specialty..." oninput="filterDoctors()">
+            <select id="specialtyFilter" onchange="filterDoctors()">
+                <option value="ALL">All Specialties</option>
+                <option value="Cardiologist">Cardiology</option>
+                <option value="Pediatrician">Pediatrics</option>
+                <option value="Orthopedic">Orthopedics</option>
+                <option value="Dermatologist">Dermatology</option>
+                <option value="General Physician">General Medicine</option>
+                <option value="Gynecologist">Gynecology</option>
+            </select>
+        </div>
+
+        <div class="doctor-grid" id="doctorsGridContainer"></div>
+    </div>
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="page">
+    <div class="container">
+        <div class="form-container">
+            <div class="section-title">
+                <h2>Create Patient Account</h2>
+                <p>Register to book appointments, track tokens, and receive reminders</p>
+            </div>
+            <div class="form-card">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="registerName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="registerEmail" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number (WhatsApp Notification Number)</label>
+                        <input type="tel" id="registerPhone" placeholder="Enter 10-digit mobile number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="registerPassword" placeholder="Create password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="page">
+    <div class="container">
+        <div class="form-container">
+            <div class="section-title">
+                <h2>Login</h2>
+                <p>Access your CarePlus account</p>
+            </div>
+            <div class="form-card">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="loginEmail" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">Login</button>
+                </form>
+                <p style="text-align:center;margin-top:12px;"><button onclick="showPage('forgotPassword')" style="border:none;background:none;color:var(--primary);font-weight:bold;">Forgot password?</button></p>
+                <br>
+                <p style="text-align:center; font-size:14px;">
+                    Don't have an account? 
+                    <button onclick="showPage('register')" style="border:none;background:none;color:var(--primary);font-weight:bold;">Register</button>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FORGOT PASSWORD -->
+<section id="forgotPassword" class="page"><div class="container"><div class="form-container"><div class="section-title"><h2>Reset Password</h2><p>Enter your email and we’ll send a secure reset link.</p></div><div class="form-card"><form id="forgotPasswordForm"><div class="form-group"><label>Email</label><input type="email" id="forgotEmail" required></div><button class="btn btn-primary" style="width:100%;">Send Reset Link</button></form></div></div></div></section>
+
+<!-- RESET PASSWORD -->
+<section id="resetPassword" class="page"><div class="container"><div class="form-container"><div class="section-title"><h2>Choose a New Password</h2><p>Use at least 10 characters.</p></div><div class="form-card"><form id="resetPasswordForm"><div class="form-group"><label>New Password</label><input type="password" id="newResetPassword" minlength="10" required></div><button class="btn btn-primary" style="width:100%;">Reset Password</button></form></div></div></div></section>
+
+<!-- APPOINTMENT -->
+<section id="appointment" class="page">
+    <div class="container">
+        <div class="form-container">
+            <div class="section-title">
+                <h2>Book Appointment</h2>
+                <p>Conflict-free scheduling with instant token allocation & automated reminders</p>
+            </div>
+            <div class="form-card">
+                <form id="appointmentForm">
+                    <div class="form-group">
+                        <label>Patient Name</label>
+                        <input type="text" id="patientName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Patient Email</label>
+                        <input type="email" id="patientEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>WhatsApp Number (For Automated Reminders)</label>
+                        <input type="tel" id="patientPhone" placeholder="Enter WhatsApp number (e.g. 9876543210)" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                            <label style="margin-bottom:0;">Reason / Symptoms</label>
+                            <button type="button" class="btn btn-secondary btn-small" onclick="startVoiceInput()" id="voiceBtn">
+                                🎙️ Voice Dictate
+                            </button>
+                        </div>
+                        <textarea id="appointmentReason" placeholder="Describe symptoms (e.g. chest pain, knee joint swelling, skin rash, or child fever)"></textarea>
+                        
+                        <button type="button" class="btn btn-accent btn-small" style="margin-top:8px;" onclick="suggestDoctorLocal()">
+                            ⚡ Auto-Match Specialist
+                        </button>
+                        <small id="doctorMatchHint" style="display:block; margin-top:5px; color:#546e7a; font-weight:bold;"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Doctor</label>
+                        <select id="doctorName" required onchange="renderTimeSlots()">
+                            <option value="">Choose Doctor</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Appointment Date</label>
+                        <input type="date" id="appointmentDate" required onchange="renderTimeSlots()">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Available Time Slots</label>
+                        <div id="slotsContainer" class="time-slots">
+                            <small style="grid-column: span 4; color: #78909c;">Select doctor and date to view time slots</small>
+                        </div>
+                        <input type="hidden" id="appointmentTime" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width:100%;">📅 Confirm Booking & Generate Token</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PATIENT DASHBOARD -->
+<section id="dashboard" class="page">
+    <div class="dashboard-header">
+        <div class="dashboard-header-content">
+            <h1>Patient Dashboard</h1>
+            <p id="dashboardWelcome">Welcome to CarePlus</p>
+        </div>
+    </div>
+    <div class="container">
+        <!-- NOTIFICATION BANNER -->
+        <div style="background:#e8f5e9; border-left:5px solid #2e7d32; padding:15px; border-radius:8px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+                <strong style="color:#2e7d32;">🔔 Browser & WhatsApp Alerts</strong>
+                <p style="font-size:13px; color:#1b5e20;">Automated token updates and official WhatsApp consultation reminders are dispatched directly by hospital management.</p>
+            </div>
+            <button class="btn btn-success btn-small" onclick="requestNotificationPermission()">Enable Notifications</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card"><h2 id="myTotal">0</h2><p>Total Bookings</p></div>
+            <div class="stat-card"><h2 id="myPending">0</h2><p>Pending</p></div>
+            <div class="stat-card"><h2 id="myApproved">0</h2><p>Approved</p></div>
+            <div class="stat-card"><h2 id="myCompleted">0</h2><p>Completed</p></div>
+        </div>
+
+        <h2 style="margin-bottom:15px; color:var(--primary-dark);">My Appointments & Tokens</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Doctor</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                        <th>Calendar</th>
+                        <th>Slip / Review</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="patientAppointments"></tbody>
+            </table>
+        </div>
+
+        <!-- PRESCRIPTION & DOSAGE DECODER -->
+        <div class="card" style="margin-bottom: 30px; border-left: 5px solid var(--secondary);">
+            <h3 style="color:var(--secondary);">Prescription & Medical Dosage Decoder</h3>
+            <p style="font-size:14px; color:#546e7a; margin-bottom:12px;">
+                Enter doctor abbreviations (e.g., TDS, BD, PO, PC, HS, Tab, Cap) to decode medication schedules and practical advice.
+            </p>
+            <div class="form-group">
+                <textarea id="localReportInput" placeholder="e.g., Tab Paracetamol 650mg TDS pc, Cap Amoxicillin 500mg BD pc..."></textarea>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button class="btn btn-secondary btn-small" onclick="explainReportLocal()">Translate Prescription</button>
+                <button class="btn btn-light btn-small" onclick="document.getElementById('localReportInput').value=''">Clear</button>
+            </div>
+            <div id="localReportOutput" style="display:none; margin-top:15px; padding:15px; background:#e0f2f1; border-radius:8px; font-size:14px; line-height:1.6; border:1px solid #b2dfdb;"></div>
+        </div>
+
+        <h2 style="margin-bottom:15px; color:var(--primary-dark);">My Prescriptions & Records</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Doctor</th>
+                        <th>Diagnosis & Prescribed Medicines</th>
+                        <th>Physician Advice</th>
+                    </tr>
+                </thead>
+                <tbody id="patientPrescriptions"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section id="admin" class="page">
+    <div class="dashboard-header">
+        <div class="dashboard-header-content">
+            <h1>Admin Control Panel</h1>
+            <p>Hospital Administration Desk • Official Contact: +91 7021160685</p>
+        </div>
+    </div>
+    <div class="container">
+        <!-- ADMIN CONTACT CARD -->
+        <div style="background:white; border-left:5px solid var(--primary); padding:16px 20px; border-radius:10px; margin-bottom:25px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; box-shadow:var(--shadow);">
+            <div>
+                <strong style="color:var(--primary-dark); font-size:16px;">🏥 Central Hospital Administration & Helpdesk</strong>
+                <p style="font-size:13px; color:#607d8b; margin-top:2px;">Primary contact for appointments, token queries, and patient communications.</p>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:14px; font-weight:bold; color:var(--dark);">Official Admin Phone:</span>
+                <a href="tel:7021160685" class="btn btn-primary btn-small" style="font-size:14px;">📞 7021160685</a>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card"><h2 id="adminTotal">0</h2><p>Total</p></div>
+            <div class="stat-card"><h2 id="adminPending">0</h2><p>Pending</p></div>
+            <div class="stat-card"><h2 id="adminApproved">0</h2><p>Approved</p></div>
+            <div class="stat-card"><h2 id="adminCompleted">0</h2><p>Completed</p></div>
+        </div>
+
+        <!-- OPD LIVE CONTROLLER (CALL NEXT PATIENT) -->
+        <h2 style="margin-bottom:15px; color:var(--primary-dark);">OPD Room Queue Controller</h2>
+        <div class="queue-board" id="adminQueueControllers"></div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+            <h2>Appointments Queue</h2>
+            <div style="display:flex; gap:8px;">
+                <button class="btn btn-secondary btn-small" onclick="exportToCSV()">📥 Export to CSV</button>
+                <button class="btn btn-danger btn-small" onclick="resetAppointments()">Clear All</button>
+            </div>
+        </div>
+
+        <div class="filter-bar">
+            <input type="text" id="adminSearchInput" placeholder="🔍 Search patient, doctor, or token..." oninput="loadAdminDashboard()">
+            <select id="adminStatusFilter" onchange="loadAdminDashboard()">
+                <option value="ALL">All Statuses</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Patient</th>
+                        <th>Contact</th>
+                        <th>Doctor</th>
+                        <th>Schedule</th>
+                        <th>Status</th>
+                        <th>Manage Status</th>
+                        <th>Admin Reminder</th>
+                        <th>Prescription</th>
+                    </tr>
+                </thead>
+                <tbody id="adminAppointments"></tbody>
+            </table>
+        </div>
+
+        <!-- DOCTOR CRUD -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin: 30px 0 15px;">
+            <h2>Hospital Doctor Directory</h2>
+            <button class="btn btn-primary btn-small" onclick="openDoctorModal()">➕ Add Doctor</button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Specialty</th>
+                        <th>Fee</th>
+                        <th>Experience</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="adminDoctorsTable"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- MODALS -->
+
+<!-- 1. Doctor Profile Modal -->
+<div id="doctorProfileModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('doctorProfileModal')">✕</button>
+        <div style="text-align:center; margin-bottom:15px;">
+            <div class="doctor-avatar" id="modalDoctorAvatar">👨‍⚕️</div>
+            <h3 id="modalDoctorName" style="color:var(--primary-dark);">Doctor Name</h3>
+            <p id="modalDoctorSpecialty" class="speciality">Specialty</p>
+        </div>
+        <div style="font-size:14px; line-height:1.8;">
+            <p><strong>🎓 Qualifications:</strong> <span id="modalDoctorQual">MBBS, MD</span></p>
+            <p><strong>⏳ Experience:</strong> <span id="modalDoctorExp">10+ Years</span></p>
+            <p><strong>💵 Consultation Fee:</strong> ₹<span id="modalDoctorFee">500</span></p>
+            <p><strong>📅 Working Days:</strong> <span id="modalDoctorDays">Mon - Sat</span></p>
+            <p style="margin-top:10px;"><strong>📝 Bio:</strong> <span id="modalDoctorBio">Expert physician specializing in patient care.</span></p>
+        </div>
+        <br>
+        <button class="btn btn-primary" style="width:100%;" id="modalBookBtn">Book Consultation</button>
+    </div>
+</div>
+
+<!-- 2. Prescription Modal -->
+<div id="prescriptionModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('prescriptionModal')">✕</button>
+        <h3 style="color:var(--primary-dark); margin-bottom:15px;">Issue Digital Prescription</h3>
+        <form id="prescriptionForm">
+            <input type="hidden" id="rxAppointmentId">
+            <div class="form-group">
+                <label>Diagnosis & Medications</label>
+                <textarea id="rxMeds" required placeholder="e.g. Tab Paracetamol 650mg TDS pc, Cap Amoxicillin 500mg BD pc..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Doctor Advice / Instructions</label>
+                <textarea id="rxAdvice" placeholder="Drink plenty of water, review after 5 days."></textarea>
+            </div>
+            <button type="submit" class="btn btn-success" style="width:100%;">Save Prescription</button>
+        </form>
+    </div>
+</div>
+
+<!-- 3. Review Modal -->
+<div id="reviewModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('reviewModal')">✕</button>
+        <h3 style="color:var(--primary-dark); margin-bottom:10px;">Rate & Review Doctor</h3>
+        <p style="font-size:13px; color:#546e7a;">Share your consultation feedback for <b id="reviewDoctorName"></b></p>
+        <form id="reviewForm">
+            <input type="hidden" id="reviewDoctor">
+            <div class="star-rating" id="starContainer">
+                <span onclick="setRating(1)">★</span>
+                <span onclick="setRating(2)">★</span>
+                <span onclick="setRating(3)">★</span>
+                <span onclick="setRating(4)">★</span>
+                <span onclick="setRating(5)">★</span>
+            </div>
+            <input type="hidden" id="ratingScore" value="5">
+            <div class="form-group">
+                <label>Comment</label>
+                <textarea id="reviewComment" placeholder="Doctor was attentive, polite and knowledgeable..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Submit Review</button>
+        </form>
+    </div>
+</div>
+
+<!-- 4. Add Doctor Modal (Admin) -->
+<div id="addDoctorModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal('addDoctorModal')">✕</button>
+        <h3 style="color:var(--primary-dark); margin-bottom:15px;">Add New Doctor</h3>
+        <form id="addDoctorForm">
+            <div class="form-group">
+                <label>Doctor Name</label>
+                <input type="text" id="newDocName" placeholder="Dr. Firstname Lastname" required>
+            </div>
+            <div class="form-group">
+                <label>Specialty</label>
+                <select id="newDocSpecialty" required>
+                    <option value="Cardiologist">Cardiologist</option>
+                    <option value="Pediatrician">Pediatrician</option>
+                    <option value="Orthopedic">Orthopedic</option>
+                    <option value="Dermatologist">Dermatologist</option>
+                    <option value="General Physician">General Physician</option>
+                    <option value="Gynecologist">Gynecologist</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Consultation Fee (₹)</label>
+                <input type="number" id="newDocFee" value="500" required>
+            </div>
+            <div class="form-group">
+                <label>Experience</label>
+                <input type="text" id="newDocExp" placeholder="e.g. 8+ Years" required>
+            </div>
+            <div class="form-group">
+                <label>Qualifications</label>
+                <input type="text" id="newDocQual" placeholder="MBBS, MD" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;">Add Doctor</button>
+        </form>
+    </div>
+</div>
+
+<!-- PRINT RECEIPT TEMPLATE WITH TOKEN -->
+<div id="print-slip">
+    <div style="text-align:center; border-bottom: 2px solid #1976d2; padding-bottom: 15px;">
+        <h1 style="color:#1976d2;">CarePlus Digital Health Portal</h1>
+        <p>123 Health Ave, Medical District • Admin: +91 7021160685 • Emergency: 108</p>
+    </div>
+    <div style="margin-top:20px; font-size:15px; line-height:2;">
+        <div style="float:right; border:2px dashed #1976d2; padding:10px 20px; text-align:center; border-radius:8px;">
+            <span style="font-size:12px; color:#546e7a;">QUEUE TOKEN</span><br>
+            <strong id="slipToken" style="font-size:24px; color:#1976d2; font-family:monospace;"></strong>
+        </div>
+        <h3>Official Appointment Slip</h3>
+        <p><strong>Appointment ID:</strong> <span id="slipId"></span></p>
+        <p><strong>Patient Name:</strong> <span id="slipPatient"></span></p>
+        <p><strong>Doctor:</strong> <span id="slipDoctor"></span></p>
+        <p><strong>Date & Time:</strong> <span id="slipDateTime"></span></p>
+        <p><strong>Status:</strong> <span id="slipStatus"></span></p>
+        <p><strong>Reason:</strong> <span id="slipReason"></span></p>
+    </div>
+    <div style="margin-top:40px; display:flex; justify-content:space-between;">
+        <div>Patient Signature: __________________</div>
+        <div>Hospital Stamp & Sign: __________________</div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <p>© 2026 CarePlus Digital Health Portal</p>
+    <p>Hospital Administration Helpline: +91 7021160685 | Online Appointments & Queue System</p>
+</footer>
+
+<!-- CHATBOT BUTTON & WINDOW -->
+<button class="chatbot-button" onclick="toggleChatbot()" aria-label="Hospital Chatbot">🤖</button>
+<div class="chatbot" id="chatbot">
+    <div class="chat-header">
+        <div class="chat-title">
+            <div class="chat-avatar">🤖</div>
+            <div>
+                <h4 style="font-size:15px;">CarePlus Assistant</h4>
+                <small style="opacity:0.85;">Hospital Helpdesk</small>
+            </div>
+        </div>
+        <button onclick="toggleChatbot()" style="background:none;border:none;color:white;font-size:18px;">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="quick-questions">
+        <button onclick="quickQuestion('How can I book an appointment?')">📅 Book</button>
+        <button onclick="quickQuestion('How does the token system work?')">🎫 Tokens</button>
+        <button onclick="quickQuestion('Show me the doctors')">👨‍⚕️ Doctors</button>
+        <button onclick="quickQuestion('What are the hospital timings?')">🕐 Timings</button>
+        <button onclick="quickQuestion('I have an emergency')">🚨 Emergency</button>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" class="chat-input" placeholder="Ask a question or describe symptoms...">
+        <button class="chat-send" onclick="sendChatMessage()">➤</button>
+    </div>
+</div>
+
+<!-- JAVASCRIPT LOGIC -->
+<script>
+/* DEFAULT DATA */
+const defaultDoctors = [
+    { id: 1, name: "Dr. Rahul Sharma", specialty: "Cardiologist", qualifications: "MBBS, MD (Cardiology)", exp: "12+ Years", fee: 800, days: "Mon - Sat", bio: "Cardiovascular specialist focused on preventive cardiology and ECG diagnostics." },
+    { id: 2, name: "Dr. Priya Patel", specialty: "Pediatrician", qualifications: "MBBS, DCH", exp: "9+ Years", fee: 500, days: "Mon - Fri", bio: "Child health consultant specializing in infant care and pediatric wellness." },
+    { id: 3, name: "Dr. Arjun Mehta", specialty: "Orthopedic", qualifications: "MBBS, MS (Ortho)", exp: "14+ Years", fee: 750, days: "Tue - Sun", bio: "Orthopedic surgeon specializing in bone fractures, joint relief, and sports rehabilitation." },
+    { id: 4, name: "Dr. Neha Singh", specialty: "Dermatologist", qualifications: "MBBS, MD (DVL)", exp: "7+ Years", fee: 600, days: "Mon - Sat", bio: "Clinical dermatologist experienced in skin therapies and allergies." },
+    { id: 5, name: "Dr. Amit Verma", specialty: "General Physician", qualifications: "MBBS, MD (General Medicine)", exp: "15+ Years", fee: 400, days: "Mon - Sun", bio: "General physician managing fevers, chronic ailments, and primary health exams." },
+    { id: 6, name: "Dr. Anjali Rao", specialty: "Gynecologist", qualifications: "MBBS, DGO, MS", exp: "11+ Years", fee: 700, days: "Mon - Fri", bio: "Obstetrician and gynecologist managing maternal health and women's wellness." }
+];
+
+const availableSlots = ["09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM"];
+
+/* STORAGE GETTERS / SETTERS */
+function getDoctors() { return JSON.parse(localStorage.getItem("careplus_doctors")) || defaultDoctors; }
+function saveDoctors(docs) { localStorage.setItem("careplus_doctors", JSON.stringify(docs)); }
+function getUsers() {
+    return JSON.parse(localStorage.getItem("careplus_users")) || [
+        { name: "Administrator", email: "admin@careplus.com", phone: "7021160685", password: "admin123", role: "admin" }
+    ];
+}
+function saveUsers(users) { localStorage.setItem("careplus_users", JSON.stringify(users)); }
+function getAppointments() { return JSON.parse(localStorage.getItem("careplus_appointments")) || []; }
+function saveAppointments(appts) { localStorage.setItem("careplus_appointments", JSON.stringify(appts)); }
+function getCurrentUser() { return JSON.parse(localStorage.getItem("careplus_current_user")); }
+function getReviews() { return JSON.parse(localStorage.getItem("careplus_reviews")) || []; }
+function saveReviews(revs) { localStorage.setItem("careplus_reviews", JSON.stringify(revs)); }
+
+/* OPD SERVING TOKEN POINTERS PER DOCTOR */
+function getServingTokens() {
+    return JSON.parse(localStorage.getItem("careplus_serving_tokens")) || {};
+}
+function saveServingTokens(tokens) {
+    localStorage.setItem("careplus_serving_tokens", JSON.stringify(tokens));
+}
+
+/* TOAST NOTIFICATION */
+function showToast(message, type = "info") {
+    const container = document.getElementById("toast-container");
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `<span>${message}</span><button style="border:none;background:none;font-weight:bold;cursor:pointer;" onclick="this.parentElement.remove()">✕</button>`;
+    container.appendChild(toast);
+    setTimeout(() => { toast.remove(); }, 3800);
+}
+
+/* BROWSER DESKTOP NOTIFICATIONS */
+function requestNotificationPermission() {
+    if (!("Notification" in window)) {
+        showToast("Browser notifications not supported in this browser.", "warning");
+        return;
+    }
+    Notification.requestPermission().then(permission => {
+        if (permission === "granted") {
+            showToast("Notifications enabled! You'll receive instant booking and token alerts.", "success");
+            new Notification("CarePlus Digital Health Portal", {
+                body: "Reminders active: Automated notifications will notify you of your booking and token updates.",
+                icon: "favicon.ico"
+            });
+        } else {
+            showToast("Notifications permission denied.", "warning");
+        }
+    });
+}
+
+function triggerBrowserNotification(title, message) {
+    if ("Notification" in window && Notification.permission === "granted") {
+        new Notification(title, { body: message });
+    }
+}
+
+/* NAVIGATION */
+function showPage(pageName) {
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    const p = document.getElementById(pageName);
+    if (p) p.classList.add("active");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    updateNavigation();
+
+    if (pageName === "doctors") renderDoctors();
+    if (pageName === "queue") renderPublicQueue();
+    if (pageName === "dashboard") loadPatientDashboard();
+    if (pageName === "admin") loadAdminDashboard();
+    if (pageName === "appointment") {
+        fillAppointmentUser();
+        populateDoctorDropdown();
+    }
+}
+
+function updateNavigation() {
+    const user = getCurrentUser();
+    const loginNav = document.getElementById("loginNav");
+    const registerNav = document.getElementById("registerNav");
+    const logoutNav = document.getElementById("logoutNav");
+    const dashboardNav = document.getElementById("dashboardNav");
+    const adminNav = document.getElementById("adminNav");
+
+    if (user) {
+        loginNav.style.display = "none";
+        registerNav.style.display = "none";
+        logoutNav.style.display = "block";
+        if (user.role === "admin") {
+            adminNav.style.display = "block";
+            dashboardNav.style.display = "none";
+        } else {
+            adminNav.style.display = "none";
+            dashboardNav.style.display = "block";
+        }
+    } else {
+        loginNav.style.display = "block";
+        registerNav.style.display = "block";
+        logoutNav.style.display = "none";
+        dashboardNav.style.display = "block";
+        adminNav.style.display = "none";
+    }
+}
+
+function logout() {
+    localStorage.removeItem("careplus_current_user");
+    updateNavigation();
+    showPage("home");
+    showToast("Logged out successfully.", "info");
+}
+
+/* TOKEN GENERATION ENGINE */
+function generateTokenNumber(doctorName, appointmentDate) {
+    const appointments = getAppointments();
+    const sameDayAndDoc = appointments.filter(
+        a => a.doctor === doctorName && a.date === appointmentDate && a.status !== "Cancelled"
+    );
+    const doctorObj = getDoctors().find(d => d.name === doctorName);
+    const prefix = doctorObj ? doctorObj.specialty.substring(0, 3).toUpperCase() : "DOC";
+    const seq = String(sameDayAndDoc.length + 1).padStart(2, "0");
+    return `${prefix}-${seq}`;
+}
+
+/* LIVE OPD QUEUE BOARD */
+function renderPublicQueue() {
+    const container = document.getElementById("queueBoardContainer");
+    container.innerHTML = "";
+    const doctors = getDoctors();
+    const servingTokens = getServingTokens();
+    const appointments = getAppointments();
+    const today = new Date().toISOString().split("T")[0];
+
+    doctors.forEach(doc => {
+        const currentToken = servingTokens[doc.name] || "Waiting";
+        const todayAppts = appointments.filter(a => a.doctor === doc.name && a.date === today && a.status !== "Cancelled");
+
+        const card = document.createElement("div");
+        card.className = "queue-card";
+        card.innerHTML = `
+            <h4>${escapeHTML(doc.name)}</h4>
+            <p style="color:var(--secondary); font-weight:bold; font-size:13px;">${escapeHTML(doc.specialty)}</p>
+            <div class="serving-box">
+                <small style="color:#546e7a; font-weight:bold;">NOW SERVING</small>
+                <div class="serving-number">${escapeHTML(currentToken)}</div>
+            </div>
+            <p style="font-size:13px; color:#546e7a; text-align:center;">
+                Total Today: <strong>${todayAppts.length} Patients</strong>
+            </p>
+        `;
+        container.appendChild(card);
+    });
+}
+
+/* DOCTOR RENDERING & SEARCH */
+function renderDoctors(docs = null) {
+    const doctors = docs || getDoctors();
+    const container = document.getElementById("doctorsGridContainer");
+    const reviews = getReviews();
+    container.innerHTML = "";
+
+    doctors.forEach(doc => {
+        const docReviews = reviews.filter(r => r.doctor === doc.name);
+        const avgRating = docReviews.length ? (docReviews.reduce((sum, r) => sum + Number(r.rating), 0) / docReviews.length).toFixed(1) : "5.0";
+        const card = document.createElement("div");
+        card.className = "doctor-card";
+        card.innerHTML = `
+            <div>
+                <div class="doctor-avatar">👨‍⚕️</div>
+                <h3>${escapeHTML(doc.name)}</h3>
+                <p class="speciality">${escapeHTML(doc.specialty)}</p>
+                <div class="doctor-rating-badge">★ ${avgRating} (${docReviews.length} reviews)</div>
+                <p style="font-size:13px; color:#546e7a;">${escapeHTML(doc.bio || '')}</p>
+                <p style="margin-top:6px; font-weight:bold; color:var(--primary);">Fee: ₹${doc.fee || 500}</p>
+            </div>
+            <div class="doctor-actions">
+                <button class="btn btn-secondary btn-small" onclick='openDoctorBio(${JSON.stringify(doc)})'>Profile</button>
+                <button class="btn btn-primary btn-small" onclick="bookDoctor('${escapeHTML(doc.name)}')">Book</button>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+
+    const liveCount = document.getElementById("liveDocCount");
+    if (liveCount) liveCount.textContent = `${doctors.length} Specialists`;
+}
+
+function filterDoctors() {
+    const query = document.getElementById("doctorSearchInput").value.toLowerCase();
+    const spec = document.getElementById("specialtyFilter").value;
+    const docs = getDoctors().filter(d => {
+        const matchesQuery = d.name.toLowerCase().includes(query) || d.specialty.toLowerCase().includes(query);
+        const matchesSpec = spec === "ALL" || d.specialty === spec;
+        return matchesQuery && matchesSpec;
+    });
+    renderDoctors(docs);
+}
+
+function openDoctorBio(doc) {
+    document.getElementById("modalDoctorName").textContent = doc.name;
+    document.getElementById("modalDoctorSpecialty").textContent = doc.specialty;
+    document.getElementById("modalDoctorQual").textContent = doc.qualifications || "MBBS, MD";
+    document.getElementById("modalDoctorExp").textContent = doc.exp || "10+ Years";
+    document.getElementById("modalDoctorFee").textContent = doc.fee || 500;
+    document.getElementById("modalDoctorDays").textContent = doc.days || "Mon - Sat";
+    document.getElementById("modalDoctorBio").textContent = doc.bio || "Specialist physician.";
+    document.getElementById("modalBookBtn").onclick = function() {
+        closeModal('doctorProfileModal');
+        bookDoctor(doc.name);
+    };
+    document.getElementById("doctorProfileModal").classList.add("active");
+}
+
+/* SMART TIME SLOTS */
+function populateDoctorDropdown() {
+    const select = document.getElementById("doctorName");
+    const currentVal = select.value;
+    select.innerHTML = '<option value="">Choose Doctor</option>';
+    getDoctors().forEach(d => {
+        const opt = document.createElement("option");
+        opt.value = d.name;
+        opt.textContent = `${d.name} (${d.specialty})`;
+        select.appendChild(opt);
+    });
+    if (currentVal) select.value = currentVal;
+}
+
+function renderTimeSlots() {
+    const doctor = document.getElementById("doctorName").value;
+    const date = document.getElementById("appointmentDate").value;
+    const container = document.getElementById("slotsContainer");
+    const timeHidden = document.getElementById("appointmentTime");
+    timeHidden.value = "";
+    container.innerHTML = "";
+
+    if (!doctor || !date) {
+        container.innerHTML = '<small style="grid-column: span 4; color: #78909c;">Select doctor and date to view time slots</small>';
+        return;
+    }
+
+    const appointments = getAppointments();
+    const bookedTimes = appointments
+        .filter(a => a.doctor === doctor && a.date === date && a.status !== "Cancelled")
+        .map(a => a.time);
+
+    availableSlots.forEach(slot => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = slot;
+        btn.className = "slot-btn";
+        if (bookedTimes.includes(slot)) {
+            btn.classList.add("disabled");
+            btn.title = "Slot already reserved";
+        } else {
+            btn.onclick = function() {
+                document.querySelectorAll(".slot-btn").forEach(b => b.classList.remove("selected"));
+                btn.classList.add("selected");
+                timeHidden.value = slot;
+            };
+        }
+        container.appendChild(btn);
+    });
+}
+
+/* LOCAL CLINICAL SYMPTOM TRIAGE */
+function suggestDoctorLocal() {
+    const text = document.getElementById("appointmentReason").value.toLowerCase().trim();
+    const hint = document.getElementById("doctorMatchHint");
+    const select = document.getElementById("doctorName");
+
+    if (!text) {
+        showToast("Please describe your symptoms in the box first.", "warning");
+        return;
+    }
+
+    let targetDoctor = null;
+    let explanation = "";
+
+    if (text.includes("heart") || text.includes("chest") || text.includes("palpitation") || text.includes("breath")) {
+        targetDoctor = "Dr. Rahul Sharma";
+        explanation = "Matched with Cardiology based on cardiovascular symptoms.";
+    } else if (text.includes("child") || text.includes("baby") || text.includes("infant") || text.includes("kid") || text.includes("pediatric")) {
+        targetDoctor = "Dr. Priya Patel";
+        explanation = "Matched with Pediatrics for child wellness.";
+    } else if (text.includes("bone") || text.includes("joint") || text.includes("knee") || text.includes("fracture") || text.includes("back pain") || text.includes("spine")) {
+        targetDoctor = "Dr. Arjun Mehta";
+        explanation = "Matched with Orthopedics for musculoskeletal care.";
+    } else if (text.includes("skin") || text.includes("rash") || text.includes("acne") || text.includes("allergy") || text.includes("itch")) {
+        targetDoctor = "Dr. Neha Singh";
+        explanation = "Matched with Dermatology for skin consultation.";
+    } else if (text.includes("period") || text.includes("pregnancy") || text.includes("menstrual") || text.includes("pelvic") || text.includes("cramp")) {
+        targetDoctor = "Dr. Anjali Rao";
+        explanation = "Matched with Gynecology for women's healthcare.";
+    } else {
+        targetDoctor = "Dr. Amit Verma";
+        explanation = "Matched with General Physician for comprehensive clinical consultation.";
+    }
+
+    select.value = targetDoctor;
+    renderTimeSlots();
+    hint.textContent = `Matched: ${targetDoctor} — ${explanation}`;
+    showToast(`Suggested: ${targetDoctor}`, "success");
+}
+
+/* SPEECH-TO-TEXT VOICE DICTATION */
+function startVoiceInput() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        showToast("Speech recognition is not supported in this browser. Please use Chrome or Edge.", "warning");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+
+    const btn = document.getElementById("voiceBtn");
+    btn.textContent = "🎙️ Listening...";
+    btn.style.background = "#d32f2f";
+    btn.style.color = "#fff";
+
+    recognition.onstart = function() {
+        showToast("Speak now... Describe your symptoms.", "info");
+    };
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        const reasonInput = document.getElementById("appointmentReason");
+        reasonInput.value = (reasonInput.value ? reasonInput.value + " " : "") + transcript;
+        showToast("Voice transcribed successfully!", "success");
+        suggestDoctorLocal();
+    };
+
+    recognition.onerror = function(event) {
+        showToast("Voice recognition error: " + event.error, "error");
+        resetVoiceBtn();
+    };
+
+    recognition.onend = resetVoiceBtn;
+
+    function resetVoiceBtn() {
+        btn.textContent = "🎙️ Voice Dictate";
+        btn.style.background = "";
+        btn.style.color = "";
+    }
+
+    recognition.start();
+}
+
+/* LOCAL PRESCRIPTION & DOSAGE DECODER */
+function explainReportLocal() {
+    const text = document.getElementById("localReportInput").value.trim();
+    const output = document.getElementById("localReportOutput");
+
+    if (!text) {
+        showToast("Please enter prescription or dosage notes to decode.", "warning");
+        return;
+    }
+
+    const upper = text.toUpperCase();
+    const explanations = [];
+
+    if (upper.includes("TDS")) explanations.push("• <strong>TDS:</strong> Take Three Times a Day (Morning, Afternoon, and Night).");
+    if (upper.includes("BD")) explanations.push("• <strong>BD:</strong> Take Twice a Day (Morning and Night).");
+    if (upper.includes("OD")) explanations.push("• <strong>OD:</strong> Take Once a Day.");
+    if (upper.includes("PC")) explanations.push("• <strong>PC:</strong> Take After Meals to prevent stomach irritation.");
+    if (upper.includes("AC")) explanations.push("• <strong>AC:</strong> Take Before Meals (usually 30 minutes prior).");
+    if (upper.includes("HS")) explanations.push("• <strong>HS:</strong> Take At Bedtime.");
+    if (upper.includes("SOS")) explanations.push("• <strong>SOS:</strong> Take Only As Needed when symptoms flare up.");
+    if (upper.includes("TAB")) explanations.push("• <strong>Tab:</strong> Solid tablet formulation to be swallowed with water.");
+    if (upper.includes("CAP")) explanations.push("• <strong>Cap:</strong> Capsule medication.");
+
+    output.style.display = "block";
+    if (explanations.length > 0) {
+        output.innerHTML = `
+            <strong>📋 Prescription & Dosage Guide:</strong><br><br>
+            ${explanations.join("<br>")}<br><br>
+            <small style="color:#546e7a;"><strong>General Clinical Advice:</strong> Complete full courses of prescribed antibiotics. Always verify with your consulting physician.</small>
+        `;
+    } else {
+        output.innerHTML = `
+            <strong>📋 General Medical Note:</strong><br><br>
+            Take medications strictly as scheduled by your doctor. Maintain proper hydration (2-3 liters of water daily) and rest. Consult your doctor if adverse reactions occur.
+        `;
+    }
+}
+
+/* BOOK APPOINTMENT WITH AUTOMATIC NOTIFICATIONS */
+function bookDoctor(docName) {
+    const user = getCurrentUser();
+    if (!user) {
+        showToast("Please login or register to book an appointment.", "warning");
+        showPage("login");
+        return;
+    }
+    if (user.role === "admin") {
+        showToast("Admins cannot book patient appointments.", "error");
+        return;
+    }
+    showPage("appointment");
+    setTimeout(() => {
+        document.getElementById("doctorName").value = docName;
+        renderTimeSlots();
+    }, 150);
+}
+
+function fillAppointmentUser() {
+    const user = getCurrentUser();
+    if (user && user.role === "patient") {
+        document.getElementById("patientName").value = user.name;
+        document.getElementById("patientEmail").value = user.email;
+        if (user.phone) {
+            document.getElementById("patientPhone").value = user.phone;
+        }
+    }
+}
+
+document.getElementById('forgotPasswordForm').addEventListener('submit', async e => { e.preventDefault(); const r=await fetch('/api/auth/forgot-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:document.getElementById('forgotEmail').value.trim()})}); const d=await r.json(); showToast(d.message||'If that email exists, a reset link has been sent.','info'); });
+document.getElementById('resetPasswordForm').addEventListener('submit', async e => { e.preventDefault(); const token=new URLSearchParams(location.search).get('resetToken'); const r=await fetch('/api/auth/reset-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,password:document.getElementById('newResetPassword').value})}); const d=await r.json(); showToast(d.message||d.error,'info'); if(r.ok)showPage('login'); });
+if (new URLSearchParams(location.search).has('resetToken')) showPage('resetPassword');
+
+document.getElementById("appointmentForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const user = getCurrentUser();
+    if (!user) {
+        showToast("Please login first.", "error");
+        showPage("login");
+        return;
+    }
+    const slotTime = document.getElementById("appointmentTime").value;
+    if (!slotTime) {
+        showToast("Please choose an available time slot.", "warning");
+        return;
+    }
+
+    const docName = document.getElementById("doctorName").value;
+    const apptDate = document.getElementById("appointmentDate").value;
+    const token = generateTokenNumber(docName, apptDate);
+    const patientPhone = document.getElementById("patientPhone").value.trim();
+
+    const newAppt = {
+        id: Date.now(),
+        token: token,
+        patientName: document.getElementById("patientName").value.trim(),
+        patientEmail: document.getElementById("patientEmail").value.trim(),
+        patientPhone: patientPhone,
+        doctor: docName,
+        date: apptDate,
+        time: slotTime,
+        reason: document.getElementById("appointmentReason").value.trim(),
+        status: "Pending",
+        prescription: null
+    };
+
+    const appts = getAppointments();
+    appts.push(newAppt);
+    saveAppointments(appts);
+    
+    // Automatic system reminder notification upon booking
+    showToast(`Appointment Confirmed! Token: ${token}`, "success");
+    triggerBrowserNotification(
+        "CarePlus Booking Confirmed",
+        `Token ${token} reserved with ${docName} on ${apptDate} at ${slotTime}.`
+    );
+
+    document.getElementById("appointmentForm").reset();
+    showPage("dashboard");
+});
+
+/* PATIENT DASHBOARD */
+function loadPatientDashboard() {
+    const user = getCurrentUser();
+    if (!user || user.role !== "patient") {
+        showPage("login");
+        return;
+    }
+    document.getElementById("dashboardWelcome").textContent = `Welcome, ${user.name}`;
+    const myAppts = getAppointments().filter(a => a.patientEmail.toLowerCase() === user.email.toLowerCase());
+
+    document.getElementById("myTotal").textContent = myAppts.length;
+    document.getElementById("myPending").textContent = myAppts.filter(a => a.status === "Pending").length;
+    document.getElementById("myApproved").textContent = myAppts.filter(a => a.status === "Approved").length;
+    document.getElementById("myCompleted").textContent = myAppts.filter(a => a.status === "Completed").length;
+
+    const tbody = document.getElementById("patientAppointments");
+    tbody.innerHTML = "";
+
+    if (!myAppts.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No appointments found.</td></tr>';
+    } else {
+        myAppts.slice().reverse().forEach(a => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td><span class="token-badge">${escapeHTML(a.token || 'N/A')}</span></td>
+                <td><strong>${escapeHTML(a.doctor)}</strong></td>
+                <td>${escapeHTML(a.date)}<br><small>${escapeHTML(a.time)}</small></td>
+                <td>${getStatusHTML(a.status)}</td>
+                <td>
+                    <button class="btn btn-calendar btn-small" onclick='addToGoogleCalendar(${JSON.stringify(a)})' title="Add to Google Calendar">📅 Calendar</button>
+                </td>
+                <td>
+                    <button class="btn btn-secondary btn-small" onclick='printSlip(${JSON.stringify(a)})'>📄 Slip</button>
+                    ${a.status === "Completed" ? `<button class="btn btn-warning btn-small" onclick="openReviewModal('${escapeHTML(a.doctor)}')">★ Review</button>` : ''}
+                </td>
+                <td>
+                    ${a.status !== "Cancelled" && a.status !== "Completed" ? 
+                    `<button class="btn btn-danger btn-small" onclick="cancelPatientAppointment(${a.id})">Cancel</button>` : '-'}
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    const rxBody = document.getElementById("patientPrescriptions");
+    rxBody.innerHTML = "";
+    const withRx = myAppts.filter(a => a.prescription);
+    if (!withRx.length) {
+        rxBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No prescriptions issued yet.</td></tr>';
+    } else {
+        withRx.forEach(a => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${escapeHTML(a.date)}</td>
+                <td><strong>${escapeHTML(a.doctor)}</strong></td>
+                <td>${escapeHTML(a.prescription.meds)}</td>
+                <td>${escapeHTML(a.prescription.advice || '-')}</td>
+            `;
+            rxBody.appendChild(tr);
+        });
+    }
+}
+
+/* REMINDER SHORTCUTS */
+function addToGoogleCalendar(appt) {
+    const title = encodeURIComponent(`CarePlus Appointment: ${appt.doctor} (Token: ${appt.token})`);
+    const details = encodeURIComponent(`CarePlus Digital Health Portal Consultation.\nDoctor: ${appt.doctor}\nToken: ${appt.token}\nReason: ${appt.reason || 'General Consultation'}\nHospital Desk: 7021160685`);
+    const location = encodeURIComponent("CarePlus Hospital & Medical Center, Health Avenue");
+    const cleanDate = appt.date.replace(/-/g, "");
+    const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}&dates=${cleanDate}T090000Z/${cleanDate}T100000Z`;
+    window.open(calUrl, "_blank");
+}
+
+/* ADMIN DISPATCHES AUTOMATIC WHATSAPP REMINDER TO PATIENT */
+function adminSendWhatsAppReminder(appt) {
+    let cleanPhone = (appt.patientPhone || "").replace(/[^0-9]/g, "");
+    if (cleanPhone.length === 10) {
+        cleanPhone = "91" + cleanPhone;
+    }
+    const message = encodeURIComponent(
+        `🏥 *CarePlus Digital Health Portal - Official Reminder*\n\n` +
+        `Dear *${appt.patientName}*,\n` +
+        `This is a consultation reminder from CarePlus Hospital Management.\n\n` +
+        `🎫 *Token Number:* ${appt.token}\n` +
+        `👨‍⚕️ *Doctor:* ${appt.doctor}\n` +
+        `📅 *Date:* ${appt.date}\n` +
+        `⏰ *Time Slot:* ${appt.time}\n` +
+        `📌 *Status:* ${appt.status}\n\n` +
+        `Hospital Contact Desk: +91 7021160685\n` +
+        `Please arrive 15 minutes prior to your consultation slot.`
+    );
+    const waUrl = cleanPhone ? `https://wa.me/${cleanPhone}?text=${message}` : `https://wa.me/?text=${message}`;
+    window.open(waUrl, "_blank");
+}
+
+function cancelPatientAppointment(id) {
+    if (!confirm("Are you sure you want to cancel this appointment?")) return;
+    const appts = getAppointments();
+    const appt = appts.find(a => a.id === id);
+    if (appt) {
+        appt.status = "Cancelled";
+        saveAppointments(appts);
+        showToast("Appointment cancelled.", "info");
+        loadPatientDashboard();
+    }
+}
+
+/* PRINT SLIP */
+function printSlip(appt) {
+    document.getElementById("slipToken").textContent = appt.token || "N/A";
+    document.getElementById("slipId").textContent = appt.id;
+    document.getElementById("slipPatient").textContent = appt.patientName;
+    document.getElementById("slipDoctor").textContent = appt.doctor;
+    document.getElementById("slipDateTime").textContent = `${appt.date} at ${appt.time}`;
+    document.getElementById("slipStatus").textContent = appt.status;
+    document.getElementById("slipReason").textContent = appt.reason || "General Consultation";
+    window.print();
+}
+
+/* ADMIN DASHBOARD */
+function loadAdminDashboard() {
+    const user = getCurrentUser();
+    if (!user || user.role !== "admin") {
+        showPage("login");
+        return;
+    }
+
+    const appts = getAppointments();
+    document.getElementById("adminTotal").textContent = appts.length;
+    document.getElementById("adminPending").textContent = appts.filter(a => a.status === "Pending").length;
+    document.getElementById("adminApproved").textContent = appts.filter(a => a.status === "Approved").length;
+    document.getElementById("adminCompleted").textContent = appts.filter(a => a.status === "Completed").length;
+
+    renderAdminQueueControllers();
+
+    const query = (document.getElementById("adminSearchInput") ? document.getElementById("adminSearchInput").value : "").toLowerCase();
+    const statusFilter = document.getElementById("adminStatusFilter") ? document.getElementById("adminStatusFilter").value : "ALL";
+
+    const filtered = appts.filter(a => {
+        const matchesQuery = a.patientName.toLowerCase().includes(query) || 
+                             a.doctor.toLowerCase().includes(query) || 
+                             (a.token && a.token.toLowerCase().includes(query));
+        const matchesStatus = statusFilter === "ALL" || a.status === statusFilter;
+        return matchesQuery && matchesStatus;
+    });
+
+    const tbody = document.getElementById("adminAppointments");
+    tbody.innerHTML = "";
+
+    if (!filtered.length) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;">No matching appointments found.</td></tr>';
+    } else {
+        filtered.slice().reverse().forEach(a => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td><span class="token-badge">${escapeHTML(a.token || 'N/A')}</span></td>
+                <td><strong>${escapeHTML(a.patientName)}</strong></td>
+                <td>${escapeHTML(a.patientEmail)}<br><small>${escapeHTML(a.patientPhone || '-')}</small></td>
+                <td>${escapeHTML(a.doctor)}</td>
+                <td>${escapeHTML(a.date)}<br><small>${escapeHTML(a.time)}</small></td>
+                <td>${getStatusHTML(a.status)}</td>
+                <td>
+                    ${a.status === 'Pending' ? `<button class="btn btn-success btn-small" onclick="updateStatus(${a.id}, 'Approved')">Approve</button>` : ''}
+                    ${a.status === 'Approved' ? `<button class="btn btn-secondary btn-small" onclick="updateStatus(${a.id}, 'Completed')">Complete</button>` : ''}
+                    ${a.status !== 'Cancelled' ? `<button class="btn btn-danger btn-small" onclick="updateStatus(${a.id}, 'Cancelled')">Cancel</button>` : '-'}
+                </td>
+                <td>
+                    <button class="btn btn-whatsapp btn-small" onclick='adminSendWhatsAppReminder(${JSON.stringify(a)})'>
+                        💬 Send WhatsApp
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-small" onclick="openPrescriptionModal(${a.id})">💊 Rx</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    renderAdminDoctorsTable();
+}
+
+/* ADMIN OPD CALL CONTROLLER */
+function renderAdminQueueControllers() {
+    const container = document.getElementById("adminQueueControllers");
+    container.innerHTML = "";
+    const doctors = getDoctors();
+    const servingTokens = getServingTokens();
+    const appointments = getAppointments();
+    const today = new Date().toISOString().split("T")[0];
+
+    doctors.forEach(doc => {
+        const currentToken = servingTokens[doc.name] || "None";
+        const todayAppts = appointments.filter(a => a.doctor === doc.name && a.date === today && a.status !== "Cancelled");
+        
+        const card = document.createElement("div");
+        card.className = "queue-card";
+        card.innerHTML = `
+            <h4>${escapeHTML(doc.name)}</h4>
+            <p style="color:var(--secondary); font-size:12px; font-weight:bold;">${escapeHTML(doc.specialty)}</p>
+            <div class="serving-box">
+                <small style="color:#546e7a;">CURRENT PATIENT TOKEN</small>
+                <div class="serving-number">${escapeHTML(currentToken)}</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+                <button class="btn btn-primary btn-small" style="flex:1;" onclick="callNextPatient('${escapeHTML(doc.name)}')">
+                    📢 Call Next Token
+                </button>
+                <button class="btn btn-secondary btn-small" onclick="resetDoctorQueue('${escapeHTML(doc.name)}')">
+                    Reset
+                </button>
+            </div>
+            <p style="font-size:12px; color:#546e7a; margin-top:8px;">Waiting in queue: ${todayAppts.length} today</p>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function callNextPatient(doctorName) {
+    const today = new Date().toISOString().split("T")[0];
+    const appointments = getAppointments();
+    const docAppts = appointments.filter(a => a.doctor === doctorName && a.date === today && a.status !== "Cancelled");
+    
+    const servingTokens = getServingTokens();
+    const current = servingTokens[doctorName];
+    
+    let nextIndex = 0;
+    if (current) {
+        const found = docAppts.findIndex(a => a.token === current);
+        if (found !== -1) nextIndex = found + 1;
+    }
+    
+    if (nextIndex < docAppts.length) {
+        const nextToken = docAppts[nextIndex].token;
+        servingTokens[doctorName] = nextToken;
+        saveServingTokens(servingTokens);
+        showToast(`Calling Token ${nextToken} for ${doctorName}!`, "success");
+        triggerBrowserNotification("CarePlus Calling", `Token ${nextToken}: Please proceed to ${doctorName}'s room.`);
+        loadAdminDashboard();
+    } else {
+        showToast(`No more patients waiting for ${doctorName} today.`, "info");
+    }
+}
+
+function resetDoctorQueue(doctorName) {
+    const servingTokens = getServingTokens();
+    delete servingTokens[doctorName];
+    saveServingTokens(servingTokens);
+    showToast(`Queue reset for ${doctorName}.`, "info");
+    loadAdminDashboard();
+}
+
+function updateStatus(id, newStatus) {
+    const appts = getAppointments();
+    const appt = appts.find(a => a.id === id);
+    if (appt) {
+        appt.status = newStatus;
+        saveAppointments(appts);
+        showToast(`Status updated to ${newStatus}`, "success");
+        loadAdminDashboard();
+    }
+}
+
+function resetAppointments() {
+    if (!confirm("Reset all appointment records?")) return;
+    localStorage.removeItem("careplus_appointments");
+    localStorage.removeItem("careplus_serving_tokens");
+    showToast("All appointments wiped.", "info");
+    loadAdminDashboard();
+}
+
+/* EXPORT TO CSV */
+function exportToCSV() {
+    const appts = getAppointments();
+    if (!appts.length) {
+        showToast("No data to export.", "warning");
+        return;
+    }
+    let csv = "Token,ID,Patient Name,Email,Phone,Doctor,Date,Time,Status,Reason\n";
+    appts.forEach(a => {
+        csv += `"${a.token||''}","${a.id}","${a.patientName}","${a.patientEmail}","${a.patientPhone||''}","${a.doctor}","${a.date}","${a.time}","${a.status}","${(a.reason||'').replace(/"/g, '""')}"\n`;
+    });
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `CarePlus_Appointments_${new Date().toISOString().slice(0,10)}.csv`;
+    link.click();
+    showToast("CSV file exported successfully.", "success");
+}
+
+/* ADMIN DOCTORS CRUD */
+function renderAdminDoctorsTable() {
+    const tbody = document.getElementById("adminDoctorsTable");
+    tbody.innerHTML = "";
+    getDoctors().forEach(d => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td><strong>${escapeHTML(d.name)}</strong></td>
+            <td>${escapeHTML(d.specialty)}</td>
+            <td>₹${d.fee || 500}</td>
+            <td>${escapeHTML(d.exp || '-')}</td>
+            <td><button class="btn btn-danger btn-small" onclick="deleteDoctor(${d.id})">Delete</button></td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function openDoctorModal() { document.getElementById("addDoctorModal").classList.add("active"); }
+function deleteDoctor(id) {
+    if (!confirm("Delete doctor profile?")) return;
+    const docs = getDoctors().filter(d => d.id !== id);
+    saveDoctors(docs);
+    showToast("Doctor removed.", "info");
+    loadAdminDashboard();
+}
+
+document.getElementById("addDoctorForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const docs = getDoctors();
+    const newDoc = {
+        id: Date.now(),
+        name: document.getElementById("newDocName").value.trim(),
+        specialty: document.getElementById("newDocSpecialty").value,
+        fee: Number(document.getElementById("newDocFee").value),
+        exp: document.getElementById("newDocExp").value.trim(),
+        qualifications: document.getElementById("newDocQual").value.trim(),
+        days: "Mon - Sat",
+        bio: "Specialist medical consultant."
+    };
+    docs.push(newDoc);
+    saveDoctors(docs);
+    closeModal('addDoctorModal');
+    this.reset();
+    showToast("New doctor registered!", "success");
+    loadAdminDashboard();
+});
+
+/* PRESCRIPTIONS */
+function openPrescriptionModal(apptId) {
+    document.getElementById("rxAppointmentId").value = apptId;
+    const appts = getAppointments();
+    const appt = appts.find(a => a.id === apptId);
+    if (appt && appt.prescription) {
+        document.getElementById("rxMeds").value = appt.prescription.meds;
+        document.getElementById("rxAdvice").value = appt.prescription.advice;
+    } else {
+        document.getElementById("rxMeds").value = "";
+        document.getElementById("rxAdvice").value = "";
+    }
+    document.getElementById("prescriptionModal").classList.add("active");
+}
+
+document.getElementById("prescriptionForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const id = Number(document.getElementById("rxAppointmentId").value);
+    const appts = getAppointments();
+    const appt = appts.find(a => a.id === id);
+    if (appt) {
+        appt.prescription = {
+            meds: document.getElementById("rxMeds").value.trim(),
+            advice: document.getElementById("rxAdvice").value.trim()
+        };
+        saveAppointments(appts);
+        closeModal("prescriptionModal");
+        showToast("Prescription recorded.", "success");
+    }
+});
+
+/* REVIEWS & RATINGS */
+function openReviewModal(doctorName) {
+    document.getElementById("reviewDoctor").value = doctorName;
+    document.getElementById("reviewDoctorName").textContent = doctorName;
+    setRating(5);
+    document.getElementById("reviewModal").classList.add("active");
+}
+
+function setRating(rating) {
+    document.getElementById("ratingScore").value = rating;
+    const spans = document.querySelectorAll("#starContainer span");
+    spans.forEach((s, idx) => {
+        s.style.color = idx < rating ? "#ffb300" : "#cfd8dc";
+    });
+}
+
+document.getElementById("reviewForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const revs = getReviews();
+    revs.push({
+        doctor: document.getElementById("reviewDoctor").value,
+        rating: Number(document.getElementById("ratingScore").value),
+        comment: document.getElementById("reviewComment").value.trim(),
+        date: new Date().toLocaleDateString()
+    });
+    saveReviews(revs);
+    closeModal("reviewModal");
+    this.reset();
+    showToast("Feedback submitted. Thank you!", "success");
+});
+
+/* REGISTER & LOGIN */
+document.getElementById("registerForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const email = document.getElementById("registerEmail").value.trim();
+    const users = getUsers();
+    if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+        showToast("This email is already registered.", "error");
+        return;
+    }
+    users.push({
+        name: document.getElementById("registerName").value.trim(),
+        email: email,
+        phone: document.getElementById("registerPhone").value.trim(),
+        password: document.getElementById("registerPassword").value,
+        role: "patient"
+    });
+    saveUsers(users);
+    showToast("Account created! Please sign in.", "success");
+    this.reset();
+    showPage("login");
+});
+
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+    const pass = document.getElementById("loginPassword").value;
+    const user = getUsers().find(u => u.email.toLowerCase() === email && u.password === pass);
+
+    if (!user) {
+        showToast("Invalid email or password.", "error");
+        return;
+    }
+    localStorage.setItem("careplus_current_user", JSON.stringify(user));
+    showToast("Login successful!", "success");
+    this.reset();
+    user.role === "admin" ? showPage("admin") : showPage("dashboard");
+});
+
+/* UTILS */
+function closeModal(id) { document.getElementById(id).classList.remove("active"); }
+function escapeHTML(str) {
+    if (!str) return "";
+    return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag]));
+}
+function getStatusHTML(status) {
+    const map = { Pending: "status-pending", Approved: "status-approved", Completed: "status-completed", Cancelled: "status-cancelled" };
+    return `<span class="status ${map[status] || 'status-pending'}">${escapeHTML(status)}</span>`;
+}
+function setMinDate() {
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("appointmentDate").setAttribute("min", today);
+}
+
+/* CHATBOT */
+let chatStarted = false;
+function toggleChatbot() {
+    const bot = document.getElementById("chatbot");
+    bot.classList.toggle("open");
+    if (bot.classList.contains("open") && !chatStarted) {
+        chatStarted = true;
+        addBotMessage("Hello! 👋 I am the CarePlus Assistant. How can I help you today?");
+    }
+}
+function addBotMessage(text) {
+    const d = document.createElement("div");
+    d.className = "message bot";
+    d.innerHTML = `<div class="message-bubble">${text}</div>`;
+    const box = document.getElementById("chatMessages");
+    box.appendChild(d);
+    box.scrollTop = box.scrollHeight;
+}
+function addUserMessage(text) {
+    const d = document.createElement("div");
+    d.className = "message user";
+    d.innerHTML = `<div class="message-bubble">${escapeHTML(text)}</div>`;
+    const box = document.getElementById("chatMessages");
+    box.appendChild(d);
+    box.scrollTop = box.scrollHeight;
+}
+function sendChatMessage() {
+    const input = document.getElementById("chatInput");
+    const val = input.value.trim();
+    if (!val) return;
+    addUserMessage(val);
+    input.value = "";
+    setTimeout(() => {
+        addBotMessage(getBotReply(val));
+    }, 400);
+}
+function quickQuestion(q) {
+    if (!document.getElementById("chatbot").classList.contains("open")) toggleChatbot();
+    document.getElementById("chatInput").value = q;
+    sendChatMessage();
+}
+function getBotReply(msg) {
+    const t = msg.toLowerCase();
+    if (t.includes("token")) return "Each confirmed appointment receives a unique Queue Token (e.g. CAR-01). You can track live room turns under the 'Live OPD Queue' tab!";
+    if (t.includes("book") || t.includes("appointment")) return "To book an appointment: Open the Appointment page, select your doctor, date, and click an available time slot.";
+    if (t.includes("doctor")) return "We have specialists in Cardiology, Pediatrics, Orthopedics, Dermatology, General Medicine, and Gynecology.";
+    if (t.includes("timing") || t.includes("hours")) return "CarePlus OPD is open Monday to Saturday from 8:00 AM to 8:00 PM. Emergency services operate 24/7.";
+    if (t.includes("emergency")) return "🚨 For critical emergencies, call emergency medical services immediately (108) or visit our Trauma Center.";
+    return "I can help guide you through doctor appointments, queue tokens, clinic timings, and portal features. Feel free to ask!";
+}
+
+document.getElementById("chatInput").addEventListener("keydown", e => { if (e.key === "Enter") sendChatMessage(); });
+
+/* INITIALIZATION */
+if (!localStorage.getItem("careplus_doctors")) saveDoctors(defaultDoctors);
+getUsers();
+setMinDate();
+updateNavigation();
+renderDoctors();
+</script>
+
+<script src="/api-integration.js" defer></script>
+</body>
+</html>
